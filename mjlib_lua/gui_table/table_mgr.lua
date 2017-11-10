@@ -14,18 +14,18 @@ function M:init()
     end
 end
 
-function M:add(key, gui_num, eye, chi)
+function M:add(orkey, key, gui_num, eye, chi)
     if not chi then
         if eye then
-            self.feng_eye_tbl[gui_num][key] = true
+            self.feng_eye_tbl[gui_num][key] = orkey
         else
-            self.feng_tbl[gui_num][key] = true
+            self.feng_tbl[gui_num][key] = orkey
         end
     else
         if eye then
-            self.eye_tbl[gui_num][key] = true
+            self.eye_tbl[gui_num][key] = orkey
         else
-            self.tbl[gui_num][key] = true
+            self.tbl[gui_num][key] = orkey
         end
     end
 
@@ -87,8 +87,8 @@ end
 
 function M:_dump(file, tbl)
     local f = io.open(file, "w+")
-    for k,_ in pairs(tbl) do
-        f:write(k.."\n")
+    for k,v in pairs(tbl) do
+        f:write(k.." "..v.."\n")
     end
     f:close()
 end

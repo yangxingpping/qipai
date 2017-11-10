@@ -7,13 +7,15 @@ for i=0,8 do
     gui_eye_tested[i] = {}
 end
 
-local function check_add(cards, gui_num, eye)
+local function check_add(orcards, cards, gui_num, eye)
     local key = 0
-
+    local orkey = 0
     for i=1,9 do
         key = key * 10 + cards[i]
     end
-
+    for i=1,9 do
+        orkey = orkey * 10 + orcards[i]
+    end
     if key == 0 then
         return false
     end
@@ -36,7 +38,7 @@ local function check_add(cards, gui_num, eye)
             return true
         end
     end
-    table_mgr:add(key, gui_num, eye, true)
+    table_mgr:add(orkey, key, gui_num, eye, true)
     return true
 end
 
@@ -46,10 +48,13 @@ local function parse_table_sub(cards, num, eye)
             if cards[i] == 0 then
                 break
             end
-
+            local orcards = {}
+            for i=1,9 do
+                orcards[i] = cards[i]
+            end
             cards[i] = cards[i] - 1
 
-            if not check_add(cards, num, eye) then
+            if not check_add(orcards, cards, num, eye) then
                 cards[i] = cards[i] + 1
                 break
             end
@@ -62,7 +67,7 @@ local function parse_table_sub(cards, num, eye)
 end
 
 local function parse_table(cards, eye)
-    if not check_add(cards, 0, eye) then
+    if not check_add(cards,cards, 0, eye) then
         return
     end
     parse_table_sub(cards, 1, eye)
